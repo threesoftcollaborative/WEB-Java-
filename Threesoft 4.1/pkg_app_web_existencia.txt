@@ -1,0 +1,76 @@
+CREATE OR REPLACE PACKAGE pkg_app_web_existencia AS
+PROCEDURE prc_existe_producto (p_nombre    IN  sga_producto.nombre%TYPE,
+                                p_mensaje   OUT INT);
+PROCEDURE prc_existe_proveedor (p_nombre       IN  sga_proveedor.nombre%TYPE,
+                                p_rut       IN  sga_proveedor.rut%TYPE, 
+                                p_mensaje   OUT INT); 
+PROCEDURE prc_existe_cliente (p_rut    IN  sga_cliente.rut%TYPE,
+                                p_mensaje   OUT INT); 
+END pkg_app_web_existencia;
+/
+CREATE OR REPLACE PACKAGE BODY pkg_app_web_existencia AS
+PROCEDURE prc_existe_producto
+    (
+    p_nombre    IN  sga_producto.nombre%TYPE,
+    p_mensaje   OUT INT
+    )
+    IS var_count INT;
+ 
+    BEGIN
+        p_mensaje := 0;
+        SELECT COUNT(*) INTO var_count FROM sga_producto WHERE nombre = p_nombre;
+        IF(var_count > 0) THEN
+
+        p_mensaje:=1;
+
+        ELSE
+
+        p_mensaje:=0;
+        
+        END IF;
+END prc_existe_producto;
+
+PROCEDURE prc_existe_proveedor
+    (
+    p_nombre    IN  sga_proveedor.nombre%TYPE,
+    p_rut       IN  sga_proveedor.rut%TYPE,
+    p_mensaje   OUT INT
+    )
+    IS var_count INT;
+ 
+    BEGIN
+        p_mensaje := 0;
+        SELECT COUNT(*) INTO var_count FROM sga_proveedor WHERE nombre = p_nombre OR rut = p_rut;
+        IF(var_count > 0) THEN
+
+        p_mensaje:=1;
+
+        ELSE
+
+        p_mensaje:=0;
+        
+        END IF;
+END prc_existe_proveedor;
+    
+PROCEDURE prc_existe_cliente
+    (
+    p_rut    IN  sga_cliente.rut%TYPE,
+    p_mensaje   OUT INT
+    )
+    IS var_count INT;
+ 
+    BEGIN
+        p_mensaje := 0;
+        SELECT COUNT(*) INTO var_count FROM sga_cliente WHERE rut = p_rut;
+        IF(var_count > 0) THEN
+
+        p_mensaje:=1;
+
+        ELSE
+
+        p_mensaje:=0;
+        
+        END IF;
+END prc_existe_cliente;    
+
+END pkg_app_web_existencia;

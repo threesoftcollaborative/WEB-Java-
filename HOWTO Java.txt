@@ -1,0 +1,75 @@
+Bienvenido al HOWTO de como correr el proyecto de Java y Oracle Database con NetBeans IDE.
+
+Para poder hacer correr el projecto hay que tomar los siguientes pasos:
+
+- Verificar si tienes instalado Glasfish 4.1. Si no esta instalado bajarlo del siguiente   
+  link: http://download.oracle.com/glassfish/4.1/index.html
+  Es recomendado ocupar la version 4.1 y no sus versiones posteriores, e.g, 4.1.1 a 5.0, ya que es la version mas estable de Glassfish.
+  
+- Una vez descargado el paso siguiente es ubicar donde se instalara Glassfish, crear una carpeta nueva y nombrar de manera correspondiente, e.g,
+  C:\Program Files\glassfish 4.1
+
+Para agregar glassfish 4.1 a Netbeans tomar los siguientes pasos:
+
+- Abrir NetBeans y dirigirse a Servicios/Services.
+- Clic derecho en servidores -> Agreagr servidor.
+- Seleccionar Glasfish Server de la lista de servidores.
+- Seleccionar la ubicacion de instalacion. Por defecto deberia ser C:\Program Files\glassfish 4.1 donde la carpeta de instalacion 
+  es la creada recientemente.
+- Verificar que "Local Domain" esta seleccionado.
+- Clic Siguiente/Next.
+- Dejar ubicacion del dominio con los valores por defecto. Si es necesario cambiarlos, cambiar los valores de acuerdo a lo que se necesite.
+- Clic en Terminar/Finish.
+
+Para poder crear la conexion con la base de datos Oracle 11g tomar los siguientes pasos:
+- Verificar si se tiene el driver para conectarse con la base de datos Oracle 11g. Si no se cuenta con el driver dirigirse a 
+  http://www.oracle.com/technetwork/database/features/jdbc/jdbc-drivers-12c-download-1958347.html y bajar el driver (archivo JAR)
+  correspondiente. En este caso el archivo JAR viene incluido en la carpeta del proyecto.
+- Ubciar el archivo JAR llamado "ojdbc7.jar"
+- El archivo JAR debe estar tanto en la carpeta lib de glassfish y modules de NetBeans.
+- Copiar y pegarlo en la carpeta lib de glassfish, e.g, C:\Program Files\glassfish 4.1\glassfish\lib
+- Copiar y pegarlo en la carpeta modules de NetBeans, e.g, C:\Program Files\NetBeans 8.2\ide\modules
+
+Crear nueva conexion a la base de datos en NetBeans:
+- Clic derecho en Databases > Nueva Conexion.
+- Driver > Oracle Thin y ubicar el archivo ojdbc7.jar que esta ubicado en la carpeta modules de NetBeans.
+- Escribir Host correspondiente y el puerto.
+- Copiar el JDBC URL ya que sera de uso en el siguiente paso.
+
+Nota: Glassfish y Oracle ocupan o suelen ocupar los mismos puertos lo cual genera conflicto. Es recomendado cambiar el puerto de Oracle para
+      evitar conflictos. Si genera conlfictos dirigirse a sumations.net/i/doc/XEDBA/network005.htm y seguir los pasos para cambiar el puerto.
+      Una vez cambiado el puerto volver a repetir el paso de crear nueva conexion a base de datos en NetBeans.
+
+Crear pool de conexiones en NetBeans:
+- Verificar que Glassfish 4.1 esta corriendo. De no estar corriendo, hacer clic derecho en Glassfish 4.1 y clic en Iniciar/Start
+- Clic derecho en el servidor y clic en "View Domain Admin Console"
+- Dirigirse a JDBC > JDBC Connection Pools
+- Paso 1: Crear nuevo pool de conexiones. Clic Nuevo/New
+- Escribir nombre de pool deseado.
+- Tipo de recurso/Resource Type > javax.sql.DataSource
+- Database Driver Vendor > Oracle
+- Next
+- Paso 2: En la parte posterior de la pagina, seleccionar todas la propiedades y borrarlas.
+- Agregar 4 nuevos campos:
+	- URL > la URL copiada en el paso anterior, e.g, jdbc:oracle:thin:@Max-Personal:9999:XE
+	- password > password utilizada para conectarse a la base de datos Oracle. Es la pass creada al momento de instalar Oracle11g Databse
+	- user > Nombre de la base datos
+	- portNumber (opcional) > puerto de oracle. Si se modifico, ingresar el nuevo puerto, e.g, 9999
+- Terminar/Finish
+- Seleccionar en la lista de pool de conexiones la nueva Pool de conexiones creada.
+- Clic en Ping. Si todo lo de arriba se hizo correctamente el Ping deberia ser exitoso.
+- Dirigirse a JDBC > JDBC Resources
+- Clic en nuevo/new
+- JNDI Name, e.g, jdbc/nombreDeResource
+- Pool Name > Seleccionar el Pool de conexiones creado.
+- Clic Ok 
+
+Nota para el perofesor:
+- Las Password de los usuarios Admin que estan encriptadas en la base de datos son todas 123.
+
+Happy Coding!
+
+
+
+
+
