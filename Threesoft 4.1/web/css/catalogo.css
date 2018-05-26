@@ -1,0 +1,10 @@
+*{
+    margin: auto;
+}
+
+.box2 {
+float: left;
+  width: 200px;
+  height: 100px;
+  margin: 1em;
+}
